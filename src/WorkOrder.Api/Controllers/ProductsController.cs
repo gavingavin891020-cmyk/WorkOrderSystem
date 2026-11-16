@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using Dapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
+using WorkOrder.Api.Data;
 using WorkOrder.Api.Models;
 
 namespace WorkOrder.Api.Controllers;
@@ -10,19 +10,18 @@ namespace WorkOrder.Api.Controllers;
 [Route("api/[controller]")]
 public class ProductsController : ControllerBase
 {
-    private readonly IConfiguration _configuration;
+    private readonly IDbConnectionFactory _connectionFactory;
 
-    public ProductsController(IConfiguration configuration)
+    public ProductsController(IDbConnectionFactory connectionFactory)
     {
-        _configuration = configuration;
+        _connectionFactory = connectionFactory;
     }
 
     // GET api/products?keyword=外殼&isEnable=true
     [HttpGet]
     public async Task<IActionResult> Query(string? keyword, bool? isEnable)
     {
-        var connectionString = _configuration.GetConnectionString("DefaultConnection");
-        using var connection = new SqlConnection(connectionString);
+        using var connection = _connectionFactory.CreateConnection();
 
         var products = await connection.QueryAsync<ProductVM>(
             "dbo.usp_Product_Query",

@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
+using WorkOrder.Api.Data;
 
 namespace WorkOrder.Api.Controllers;
 
@@ -8,19 +8,18 @@ namespace WorkOrder.Api.Controllers;
 [Route("api/[controller]")]
 public class HealthController : ControllerBase
 {
-    private readonly IConfiguration _configuration;
+    private readonly IDbConnectionFactory _connectionFactory;
 
-    public HealthController(IConfiguration configuration)
+    public HealthController(IDbConnectionFactory connectionFactory)
     {
-        _configuration = configuration;
+        _connectionFactory = connectionFactory;
     }
 
     // GET api/health/db
     [HttpGet("db")]
     public async Task<IActionResult> CheckDb()
     {
-        var connectionString = _configuration.GetConnectionString("DefaultConnection");
-        using var connection = new SqlConnection(connectionString);
+        using var connection = _connectionFactory.CreateConnection();
         var dbName = await connection.QuerySingleAsync<string>("SELECT DB_NAME()");
         return Ok(new { database = dbName });
     }
