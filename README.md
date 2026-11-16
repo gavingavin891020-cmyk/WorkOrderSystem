@@ -32,6 +32,6 @@
 - [x] 建立 Web API 專案
 - [x] 設計四張資料表並撰寫建表 SQL
 - [x] API 連接資料庫
-- [ ] 產品查詢 API 與第一支 Stored Procedure
+- [x] 產品查詢 API 與第一支 Stored Procedure
 - [ ] 工單新增、查詢、編輯 API
 - [ ] 報工 API（交易處理）
