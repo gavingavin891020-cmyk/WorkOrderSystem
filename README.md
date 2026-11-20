@@ -33,5 +33,6 @@
 - [x] 設計四張資料表並撰寫建表 SQL
 - [x] API 連接資料庫
 - [x] 產品查詢 API 與第一支 Stored Procedure
-- [ ] 工單新增、查詢、編輯 API
+- [x] 工單查詢 API（JOIN 產品表）
+- [ ] 工單新增、編輯 API
 - [ ] 報工 API（交易處理）
